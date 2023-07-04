@@ -15,8 +15,8 @@ contract FundMe {
     uint256 constant MINIMUM_USD = 5e18;
     address private immutable i_owner;
 
-    address[] private funders;
-    mapping (address funder => uint256 amountFunded) private addressToAmountFunded;
+    address[] private s_funders;
+    mapping (address funder => uint256 amountFunded) private s_addressToAmountFunded;
     AggregatorV3Interface private s_priceFeed;
 
     modifier onlyOwner {
@@ -46,21 +46,21 @@ contract FundMe {
         require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "Send at least $5");
 
         // update the funders array
-        funders.push(msg.sender);
+        s_funders.push(msg.sender);
         // update the mapping of address to amounts
-        addressToAmountFunded[msg.sender] += msg.value;
+        s_addressToAmountFunded[msg.sender] += msg.value;
     }
 
     function withdraw() external onlyOwner {
-        uint256 totalFunders = funders.length;
+        uint256 totalFunders = s_funders.length;
 
         // reset the funded amounts to zero
         for (uint256 funderIndex=0; funderIndex<totalFunders; funderIndex++) {
-            address funder = funders[funderIndex];
-            addressToAmountFunded[funder] = 0;
+            address funder = s_funders[funderIndex];
+            s_addressToAmountFunded[funder] = 0;
         }
         // resetting the funders array
-        funders = new address[](0);
+        s_funders = new address[](0);
 
         // Send the contract balance to the owner
         (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
@@ -70,11 +70,11 @@ contract FundMe {
 
     // getter functions
     function getAddressToAmountFunded(address funder) external view returns(uint256) {
-        return addressToAmountFunded[funder];
+        return s_addressToAmountFunded[funder];
     }
 
     function getFunder(uint256 index) external view returns(address) {
-        return funders[index];
+        return s_funders[index];
     }
 
     function getOwner() external view returns(address) {
