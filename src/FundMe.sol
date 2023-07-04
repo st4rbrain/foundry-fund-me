@@ -23,7 +23,7 @@ contract FundMe {
         i_owner = msg.sender;
     }
 
-    function fundMe() external payable {
+    function fundMe() public payable {
         // Checking for a minimum amount of 5 USD
         require(msg.value.getConversionRate() >= MINIMUM_USD, "Send at least $5");
 
@@ -52,6 +52,15 @@ contract FundMe {
     modifier onlyOwner {
         if (msg.sender != i_owner) revert FundMe__NotOwner();
         _;
+    }
+
+    // Handle ETH sent directly without using the fund funciton
+    receive() external payable {
+        fundMe();
+    }
+
+    fallback() external payable {
+        fundMe();
     }
 
 }
