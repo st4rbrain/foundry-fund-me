@@ -4,6 +4,9 @@ pragma solidity ^0.8.18;
 
 import {PriceConverter} from "./PriceConverter.sol";
 
+// custom error to check owner
+error FundMe__NotOwner();
+
 contract FundMe {
     // price converter library functions applicable for all uint256 data type variables
     using PriceConverter for uint256;
@@ -47,7 +50,7 @@ contract FundMe {
     }
 
     modifier onlyOwner {
-        require(msg.sender == i_owner, "Not owner");
+        if (msg.sender != i_owner) revert FundMe__NotOwner();
         _;
     }
 
