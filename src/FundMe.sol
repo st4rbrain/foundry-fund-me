@@ -53,10 +53,10 @@ contract FundMe {
 
     function withdraw() external onlyOwner {
         uint256 totalFunders = s_funders.length;
-
+        address[] memory funders = s_funders;
         // reset the funded amounts to zero
         for (uint256 funderIndex=0; funderIndex<totalFunders; funderIndex++) {
-            address funder = s_funders[funderIndex];
+            address funder = funders[funderIndex];
             s_addressToAmountFunded[funder] = 0;
         }
         // resetting the funders array
