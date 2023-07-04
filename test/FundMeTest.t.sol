@@ -14,6 +14,12 @@ contract FundMeTest is Test {
     uint256 private constant SEND_VALUE = 0.1 ether;
     uint256 private constant STARTING_BALANCE = 10 ether;
 
+    modifier funded() {
+        vm.prank(USER);     // Next transaction will be sent by USER
+        fundMe.fund{value: SEND_VALUE}();
+        _;
+    }
+
     function setUp() external {
         DeployFundMe deployFundMe = new DeployFundMe();
         fundMe = deployFundMe.run();
@@ -37,12 +43,39 @@ contract FundMeTest is Test {
         fundMe.fund();
     }
 
-    function testFundUpdatesFundedDataStructure() public {
-        vm.prank(USER);    // The next Tx will be sent by the user
-        fundMe.fund{value: SEND_VALUE}();
-
+    function testFundUpdatesFundedDataStructure() public funded {
         uint256 amountFunded = fundMe.getAddressToAmountFunded(USER);
         assertEq(amountFunded, SEND_VALUE);
     }
 
+    function testFundAddsFunderToArrayOfFunders() public funded {
+        address funder = fundMe.getFunder(0);
+        assertEq(funder, USER);
+    }
+    
+    function testOnlyOwnerCanWithdraw() public funded {
+        vm.expectRevert();
+        fundMe.withdraw();
+    }
+
+    function testWithdrawWithASingleFunder() public {
+        // Arrange
+        uint256 startingOwnerBalance = fundMe.getOwner().balance;
+        uint256 startingFundMeBalance = address(fundMe).balance;
+
+        // Act
+        vm.prank(fundMe.getOwner());
+        fundMe.withdraw();
+
+        // Assert
+        uint256 endingOwnerBalance = fundMe.getOwner().balance;
+        uint256 endingFundMeBalance = address(fundMe).balance;
+
+        assertEq(endingFundMeBalance, 0);
+        assertEq(endingOwnerBalance, startingOwnerBalance+startingFundMeBalance);
+    }
+
+    function testWithdrawFromMultipleFunders() public {
+        
+    }
 }
