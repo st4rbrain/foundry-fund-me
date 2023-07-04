@@ -12,16 +12,32 @@ contract FundMe {
     using PriceConverter for uint256;
 
     uint256 constant MINIMUM_USD = 5e18;
+    address private immutable i_owner;
 
     address[] private funders;
     mapping (address funder => uint256 amountFunded) private addressToAmountFunded;
 
-    address immutable i_owner;
+
+    modifier onlyOwner {
+        if (msg.sender != i_owner) revert FundMe__NotOwner();
+        _;
+    }
+    
 
     constructor() {
         // set the contract deployer as the owner
         i_owner = msg.sender;
     }
+
+    // Handle ETH sent directly without using the fund funciton
+    receive() external payable {
+        fundMe();
+    }
+
+    fallback() external payable {
+        fundMe();
+    }
+    
 
     function fundMe() public payable {
         // Checking for a minimum amount of 5 USD
@@ -49,18 +65,22 @@ contract FundMe {
         require(success, "Call failed");
     }
 
-    modifier onlyOwner {
-        if (msg.sender != i_owner) revert FundMe__NotOwner();
-        _;
+
+    // getter functions
+    function getAddressToAmountFunded(address funder) external view returns(uint256) {
+        return addressToAmountFunded[funder];
     }
 
-    // Handle ETH sent directly without using the fund funciton
-    receive() external payable {
-        fundMe();
+    function getFunder(uint256 index) external view returns(address) {
+        return funders[index];
     }
 
-    fallback() external payable {
-        fundMe();
+    function getOwner() external view returns(address) {
+        return i_owner;
+    }
+
+    function getMinimumUSD() external pure returns(uint256) {
+        return MINIMUM_USD;
     }
 
 }
