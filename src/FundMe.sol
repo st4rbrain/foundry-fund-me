@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.18;
 
+import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "./PriceConverter.sol";
 
 // custom error to check owner
@@ -37,7 +38,7 @@ contract FundMe {
     fallback() external payable {
         fundMe();
     }
-    
+
 
     function fundMe() public payable {
         // Checking for a minimum amount of 5 USD
@@ -81,6 +82,10 @@ contract FundMe {
 
     function getMinimumUSD() external pure returns(uint256) {
         return MINIMUM_USD;
+    }
+
+    function getVersion() internal view returns(uint256){
+        return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();
     }
 
 }
