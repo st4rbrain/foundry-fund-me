@@ -17,7 +17,7 @@ contract FundMe {
 
     address[] private funders;
     mapping (address funder => uint256 amountFunded) private addressToAmountFunded;
-
+    AggregatorV3Interface private s_priceFeed;
 
     modifier onlyOwner {
         if (msg.sender != i_owner) revert FundMe__NotOwner();
@@ -25,9 +25,10 @@ contract FundMe {
     }
     
 
-    constructor() {
+    constructor(address priceFeed) {
         // set the contract deployer as the owner
         i_owner = msg.sender;
+        s_priceFeed = AggregatorV3Interface(priceFeed);
     }
 
     // Handle ETH sent directly without using the fund funciton
@@ -42,7 +43,7 @@ contract FundMe {
 
     function fundMe() public payable {
         // Checking for a minimum amount of 5 USD
-        require(msg.value.getConversionRate() >= MINIMUM_USD, "Send at least $5");
+        require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "Send at least $5");
 
         // update the funders array
         funders.push(msg.sender);
@@ -85,7 +86,7 @@ contract FundMe {
     }
 
     function getVersion() external view returns(uint256){
-        return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();
+        return s_priceFeed.version();
     }
 
 }
