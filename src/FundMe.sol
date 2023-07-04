@@ -33,15 +33,15 @@ contract FundMe {
 
     // Handle ETH sent directly without using the fund funciton
     receive() external payable {
-        fundMe();
+        fund();
     }
 
     fallback() external payable {
-        fundMe();
+        fund();
     }
 
 
-    function fundMe() public payable {
+    function fund() public payable {
         // Checking for a minimum amount of 5 USD
         require(msg.value.getConversionRate(s_priceFeed) >= MINIMUM_USD, "Send at least $5");
 
