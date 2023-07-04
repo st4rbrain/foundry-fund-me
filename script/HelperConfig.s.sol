@@ -15,6 +15,8 @@ contract HelperConfig is Script{
     }
 
     NetworkConfig private activeNetworkConfig;
+    uint8 constant DECIMALS = 8;
+    int256 constant INITIAL_PRICE = 2000e8;
 
 
     constructor() {
@@ -47,7 +49,7 @@ contract HelperConfig is Script{
         // return the mock address
 
         vm.startBroadcast();
-        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(8, 2000e8);
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(DECIMALS, INITIAL_PRICE);
         vm.stopBroadcast();
 
         NetworkConfig memory anvilConfig = NetworkConfig({
