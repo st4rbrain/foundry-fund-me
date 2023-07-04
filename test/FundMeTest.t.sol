@@ -6,7 +6,7 @@ import {Test, console} from "../lib/forge-std/src/Test.sol";
 import {FundMe} from "../src/FundMe.sol";
 import {DeployFundMe} from "../script/DeployFundMe.s.sol";
 
-contract FundMeTest is Test{
+contract FundMeTest is Test {
 
     FundMe fundMe;
 
@@ -20,7 +20,7 @@ contract FundMeTest is Test{
     }
 
     function testOwnerIsMsgSender() public {
-        assertEq(fundMe.getOwner(), address(this));
+        assertEq(fundMe.getOwner(), msg.sender);
     }
 
     function testPriceFeedVersionIsAccurate() public {
