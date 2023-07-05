@@ -2,10 +2,10 @@
 
 pragma solidity ^0.8.18;
 
-import {Test, console} from "../../lib/forge-std/src/Test.sol";
-import {DeployFundMe} from "../../script/DeployFundMe.s.sol";
+import {Test, console} from "forge-std/Test.sol";
+import {DeployFundMe} from "script/DeployFundMe.s.sol";
 import {FundFundMe, WithdrawFundMe} from "../../script/Interactions.s.sol";
-import {FundMe} from "../../src/FundMe.sol";
+import {FundMe} from "src/FundMe.sol";
 
 
 contract InteractionsTest is Test {
