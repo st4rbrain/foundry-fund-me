@@ -31,7 +31,7 @@ contract InteractionsTest is Test {
         uint256 startingFundMeBalance = address(fundMe).balance;
 
         FundFundMe fundFundMe = new FundFundMe();
-        fundFundMe.fundFundMe{value: SEND_VALUE}(address(fundMe));
+        fundFundMe.fundFundMe(address(fundMe));
 
         uint256 endingFundMeBalance = address(fundMe).balance;
 
