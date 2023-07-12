@@ -46,6 +46,13 @@ contract HelperConfig is Script{
         return ethConfig;
     }
 
+    function getMainnetPolygonConfig() public pure returns(NetworkConfig memory) {
+        NetworkConfig memory ethConfig = NetworkConfig({
+            priceFeed: 0xAB594600376Ec9fD91F8e885dADF0CE036862dE0
+        });
+        return ethConfig;
+    }
+
     function getPolygonMumbaiConfig() public pure returns(NetworkConfig memory) {
         NetworkConfig memory polygonMumbaiConfig = NetworkConfig({
             priceFeed: 0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
