@@ -24,6 +24,8 @@ contract HelperConfig is Script{
             activeNetworkConfig = getSepoliaEthConfig();
         } else if (block.chainid == 1) {
             activeNetworkConfig = getMainnetEthConfig();
+        } else if (block.chainid == 80001) {
+            activeNetworkConfig = getPolygonMumbaiConfig();
         } else {
             activeNetworkConfig = getOrCreateAnvilEthConfig();
         }
@@ -42,6 +44,13 @@ contract HelperConfig is Script{
             priceFeed: 0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
         });
         return ethConfig;
+    }
+
+    function getPolygonMumbaiConfig() public pure returns(NetworkConfig memory) {
+        NetworkConfig memory polygonMumbaiConfig = NetworkConfig({
+            priceFeed: 0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada
+        });
+        return polygonMumbaiConfig;
     }
 
     function getOrCreateAnvilEthConfig() public returns(NetworkConfig memory) {
