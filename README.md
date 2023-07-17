@@ -1,5 +1,5 @@
 # Foundry Fund Me
-This repository contains a FundMe smart contract with some additional tests and scripts to interact with the contract. This repository uses Foundry Framework as the development environment for building, testing, and deployment tasks.
+
 ### What is FundMe?
 FundMe is a decentralized protocol allowing the contract owner to raise funds for any project. Users can contribute at least 5 USD based on network pair pricing, while only the owner can withdraw funds.
 <br><br>
@@ -17,8 +17,8 @@ FundMe is a decentralized protocol allowing the contract owner to raise funds fo
 ### Setup
   - Run these commands in the terminal: <br><br>
       ```bash
-      git clone https://github.com/Cyfrin/foundry-fund-me-personal
-      cd foundry-fund-me-personal
+      git clone https://github.com/Cyfrin/fund-me-smart-contract
+      cd fund-me-smart-contract
       forge build
       ```
       Setup completed!<br>
