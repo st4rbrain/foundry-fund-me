@@ -1,13 +1,13 @@
 # Foundry Fund Me
 This repository contains a FundMe smart contract with some additional tests and scripts to interact with the contract. This repository uses Foundry Framework as the development environment for building, testing, and deployment tasks.
 ### What is FundMe?
-FundMe is a decentralized protocol to let users send some ETH to the smart contract (a minimum of $5 of Ether). The owner of the contract can then withdraw all of the funds to his wallet. The owner may use the funds for any project or personal use.
+FundMe is a decentralized protocol allowing the contract owner to raise funds for any project. Users can contribute at least 5 USD based on network pair pricing, while only the owner can withdraw funds.
 <br><br>
 
 ## Getting Started
 ### Requirements
   - **[git](https://git-scm.com/downloads)**
-      - Donwload and install git from this link
+      - Download and install git from this link
       - Verify installation by running `git --version` in the terminal to see an output like `git version x.y.z`
   - **[foundry](https://book.getfoundry.sh/)**
       - Run the following command in the terminal:
@@ -49,13 +49,13 @@ forge coverage
 
 ### Deployment
   1. **Deploy to Anvil Local Chain**
-      - Temporary Anvil deploy (can't do any interactions with the contract deployed)
+      - Temporary Anvil deployment (can't do any interactions with the contract deployed)
   
           ```bash
           forge script scripts/DeployFundMe.s.sol
           ```
       - Deploy to local Anvil chain
-          - Open a second terminal and fire Anvil by running the command: &nbsp;&nbsp;`anvil`
+          - Open a second terminal and fire Anvil by running the command: &nbsp;&nbsp; `anvil`
           - Copy any of the ten private keys shown in the terminal
           - Run this command in the first terminal:
   
@@ -70,9 +70,9 @@ forge coverage
           - Create a `.env` file in the working directory similar to `.env.example` in this repo
           - Set your own `SEPOLIA_RPC_URL` and `PRIVATE_KEY`<br><br>
       - &#x1F4A1; **`PRIVATE_KEY`** : &nbsp;&nbsp;Private Key of any account of your Web3 wallet (like Metamask)
-      > NOTE: For development purpose, please use an account that doesn't have any real funds associated with it
+      > NOTE: For development purposes, please use an account that doesn't have any real funds associated with it
       
-      - &#x1F4A1; **`SEPOLIA_RPC_URL`** : &nbsp;&nbsp;API of the Sepolia testnet node you're working with. Get this for free from [Alchemy](https://alchemy.com/?a=673c802981)<br><br>
+      - &#x1F4A1; **`SEPOLIA_RPC_URL`**: &nbsp;&nbsp; API of the Sepolia testnet node you're working with. Get this for free from [Alchemy](https://alchemy.com/?a=673c802981)<br><br>
       - You can also add your `ETHERSCAN_API_KEY` if you want to verify your contract on [Etherscan](https://etherscan.io/)
       - Get some testnet ETH from [Chainlink faucet](https://faucets.chain.link/)
       - Deploy by running the command:
@@ -90,7 +90,7 @@ forge coverage
       ```bash
       cast send <FUNDME_CONTRACT_ADDRESS> "fund()" --value 0.1ether --rpc-url $SEPOLIA_RPC_URL --private-key <PRIVATE_KEY>
       ```
-    - By running script in the terminal:
+    - By running the script in the terminal:
       ```bash
       forge script script/Interactions.s.sol:FundFundMe --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY  --broadcast
       ```
@@ -100,7 +100,7 @@ forge coverage
       ```bash
       cast send <FUNDME_CONTRACT_ADDRESS> "withdraw()" --rpc-url $SEPOLIA_RPC_URL --private-key <PRIVATE_KEY>
       ```
-    - By running script in the terminal:
+    - By running the script in the terminal:
       ```bash
       forge script script/Interactions.s.sol:WithdrawFundMe --rpc-url $SEPOLIA_RPC_URL  --private-key $PRIVATE_KEY  --broadcast
       ```
